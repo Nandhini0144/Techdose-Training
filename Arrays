@@ -87,3 +87,189 @@ class Solution {
         return max;
     }
 }
+-----------------------------------Merge Intervals---------------------------------------------------------------------------------------
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        List<Integer> list = new ArrayList<>();
+        Arrays.sort(intervals, Comparator.comparingInt(row -> row[0]));
+        int[][] nintervals=new int[intervals.length][];
+        int k=0,i=0;
+        while(i<intervals.length)
+        {
+            int st=intervals[i][0];
+            int ed=intervals[i][1];
+            i+=1;
+            while(i<intervals.length && ed>=intervals[i][0])
+            {
+                if(intervals[i][1]>ed)
+                    ed=intervals[i][1];
+                i=i+1;
+            }
+            list.add(st);
+            list.add(ed);  
+        }
+        int[][] ans = new int[list.size()/2][2];
+        for(int j = 0; j < ans.length; j++)
+        {ans[j][0] = list.get(k);
+         k++;
+         ans[j][1]=list.get(k);
+         k++;
+        }
+        return ans;
+    }
+}
+-------------------------------Next permutation--------------------------------------------------------------------------------------------
+class Solution {
+    public void nextPermutation(int[] nums) {
+        int len=nums.length;
+        if(len>1)
+        {
+        int peak_index=len-1;
+        int peak=nums[len-1];
+        int i=len-2;
+        boolean ischange=false;
+            boolean isasc=false;
+        while(i>=0 && (nums[i]>=peak))
+        {
+            peak_index=i;
+            peak=nums[i];
+            i--;
+            ischange=true;
+            if(i==-1)
+                isasc=true;
+        }
+        if(ischange==false)
+        {
+            int tem=nums[peak_index];
+            nums[peak_index]=nums[len-2];
+            nums[len-2]=tem;
+        }
+            else if(isasc)
+            {
+                Arrays.sort(nums);
+            }
+        else
+        {
+            for(int j=i+2;j<len;j++)
+            {
+                if(nums[j]>nums[i] && nums[j]<nums[peak_index])
+                {
+                    peak_index=j;
+                    peak=nums[peak_index];
+                }
+            }
+            int tem=nums[peak_index];
+            nums[peak_index]=nums[i];
+            nums[i]=tem;
+            System.out.println(i);
+            for(int j=i+1;j<len-1;j++)
+            {
+                for(int k=j+1;k<len;k++)
+                {
+               if(nums[j]>nums[k])
+               {
+                   int te=nums[j];
+                   nums[j]=nums[k];
+                   nums[k]=te;
+               }
+                }
+                
+            }
+        }
+    }
+    }
+}
+--------------------------------Count of smaller numbers after self----------------------------------------------------------------------
+class Solution {
+    public List<Integer> countSmaller(int[] nums) {
+        List<Integer> list=new ArrayList<>();
+        for(int i=0;i<nums.length;i++)
+        {
+            int c=0;
+            for(int j=i+1;j<nums.length;j++)
+            {
+                if(nums[j]<nums[i])
+                    c++;
+            }
+            list.add(c);
+        }
+        return list;
+    }
+}
+---------------------------Best time to sell and buy stock--------------------------------------------------------------------------------
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+      int minp=INT_MAX,profit=0,currprice;
+      for(int index=0;index<prices.size();index++)
+      {
+             minp=min(prices[index],minp);
+             profit=max(profit,prices[index]-minp);
+      }
+      return profit;
+    }
+};
+---------------------------------Minimum size Subarray sum---------------------------------------------------------------------------------
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int l = 0, currSum = 0;
+        int ans = INT_MAX;
+
+        for(int r = 0; r < nums.size(); r++) {
+            currSum += nums[r];
+
+            while (currSum >= target){
+                ans = min(ans, r - l + 1);
+                currSum -= nums[l];
+                l++;
+            }
+        }
+
+        return ans == INT_MAX ? 0 : ans;
+    }
+};
+----------------------------Median of two sorted arrays-------------------------------------------------------------------------------
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int l1=nums1.length;
+        int l2=nums2.length;
+        int i=0;
+        int n1=0,n2=0;
+        int j=0,k=0;
+        while(i<=(l1+l2)/2)
+        {
+            if(j<l1 && k<l2)
+            {
+                if(nums1[j]>nums2[k])
+                {
+                    n1=n2;
+                    n2=nums2[k++];
+                }
+                else
+                {
+                    n1=n2;
+                    n2=nums1[j++];
+                }
+            }
+            else if(j>=l1)
+            {
+                n1=n2;
+                n2=nums2[k++];
+            }
+            else{
+                n1=n2;
+                n2=nums1[j++];
+            }
+            i++;
+        }
+        if((l1+l2)%2==1)
+        {
+            return n2*1.0;
+        }
+        else
+        {
+            return (n1+n2)/2.0;
+        }
+    }
+}
