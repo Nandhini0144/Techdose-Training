@@ -1,0 +1,49 @@
+class Solution {
+    public int pivot(int nums[],int si,int ei)
+    {
+        int i=si-1;
+        int j=si;
+        int pe=nums[ei];
+        while(j<ei)
+        {
+            if(nums[j]<=pe)
+            {
+                i++;
+                int temp=nums[i];
+                nums[i]=nums[j];
+                nums[j]=temp;
+            }
+            j++;
+        }
+        i++;
+        int temp=nums[ei];
+        nums[ei]=nums[i];
+        nums[i]=temp;
+        return i;
+    }
+    public int select(int nums[],int si,int ei,int k)
+    {
+        int pe=pivot(nums,si,ei);
+        if(pe<k)
+        {
+            return select(nums,pe+1,ei,k);
+        }
+        else if(pe>k)
+        {
+            return select(nums,si,pe-1,k);
+        }
+        else
+        {
+            return nums[pe];
+        }
+    }
+    public int findKthLargest(int[] nums, int k) {
+        if(nums.length==1)
+            return nums[0];
+        else
+        {
+            k=nums.length-k;
+            return select(nums,0,nums.length-1,k);
+        }
+    }
+}
